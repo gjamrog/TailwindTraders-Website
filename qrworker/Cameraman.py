@@ -3,6 +3,7 @@ from QrDecoder import QrDecoder
 import cv2 
 from Postman import Postman
 from multiprocessing import Process
+from Picasso import Picasso
 
 class Cameraman:
     def __init__(self):
@@ -12,7 +13,11 @@ class Cameraman:
         decoder = QrDecoder()
         while(True):
             frame  = camera.capture()
-            decoder.decode(frame)
+            try: 
+                a,b = decoder.decode(frame)
+                frame = Picasso.drawText(a,b, frame)
+            except: 
+                pass 
             cv2.imshow('Camera',frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break 
